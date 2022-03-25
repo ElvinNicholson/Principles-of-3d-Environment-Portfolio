@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
         player_transform.Rotate(Vector3.up, x_direction);
 
-        player_animator.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
+        player_animator.SetFloat("Horizontal", Input.GetAxis("Horizontal"), 0.1f, Time.deltaTime);
 
         player_direction = new Vector3(0, 0, z_direction);
         player_direction = transform.TransformDirection(player_direction);

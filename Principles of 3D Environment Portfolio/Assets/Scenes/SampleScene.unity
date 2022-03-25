@@ -249,6 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player_controller: {fileID: 951606754}
   player_transform: {fileID: 951606755}
+  model_transform: {fileID: 1644139445}
   player_animator: {fileID: 1082982443}
   move_speed: 8
   turn_speed: 150
