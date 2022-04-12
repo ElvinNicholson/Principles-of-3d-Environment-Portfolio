@@ -153,7 +153,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player_camera: {fileID: 963194227}
+  player_object: {fileID: 951606752}
+  player_transform: {fileID: 951606755}
   ship_camera: {fileID: 1969344763}
+  ship_transform: {fileID: 408256246}
   can_switch_camera: 0
 --- !u!4 &151689766
 Transform:
@@ -200,6 +203,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1969344765}
+  - {fileID: 1224346507}
   - {fileID: 1680352955}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -222,8 +226,12 @@ MonoBehaviour:
   ship_transform: {fileID: 408256246}
   move_speed: 20
   turn_speed: 150
---- !u!136 &408256248
-CapsuleCollider:
+  ground_mask:
+    serializedVersion: 2
+    m_Bits: 64
+  ground_check: {fileID: 1224346507}
+--- !u!65 &408256248
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -232,10 +240,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 7
-  m_Height: 25
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Size: {x: 13.44766, y: 9.591985, z: 27.61375}
+  m_Center: {x: -0.0000009536743, y: -1.7875915, z: -1.244194}
 --- !u!143 &408256249
 CharacterController:
   m_ObjectHideFlags: 0
@@ -248,12 +255,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 5
-  m_Radius: 5
+  m_Radius: 4.8
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 5}
+  m_Center: {x: 0, y: -1.8, z: 5}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +391,6 @@ MonoBehaviour:
   player_camera: {fileID: 963194227}
   move_speed: 8
   turn_speed: 150
-  interaction_distance: 10
   game_controller: {fileID: 151689765}
   ground_mask:
     serializedVersion: 2
@@ -519,6 +525,36 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: 3b059b06d05c0e04ba42674f84feac25, type: 3}
   m_PrefabInstance: {fileID: 2146017260}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1224346506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1224346507}
+  m_Layer: 0
+  m_Name: Ground Check
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1224346507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224346506}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -6.72, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 408256246}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1514262285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -528,7 +564,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b79b459ef20fd824f91f636d4ce033d5, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b79b459ef20fd824f91f636d4ce033d5, type: 3}
       propertyPath: m_LocalScale.x

@@ -14,17 +14,24 @@ public class ShipController : MonoBehaviour
     [SerializeField] private float turn_speed = 150f;
 
     private Vector3 ship_direction;
-    private Vector3 velocity;
     private float vertical_input;
     private float horizontal_input;
 
+    private bool is_grounded;
+    [SerializeField] private LayerMask ground_mask;
+    [SerializeField] private Transform ground_check;
+
     private void Update()
     {
-        Movement();
-        Interact();
+        HorizontalMovement();
+        if (ship_camera.enabled)
+        {
+            VerticalMovement();
+            Dismount();
+        }
     }
 
-    private void Movement()
+    private void HorizontalMovement()
     {
         if (ship_camera.enabled)
         {
@@ -65,11 +72,29 @@ public class ShipController : MonoBehaviour
         }
     }
 
-    private void Interact()
+    private void VerticalMovement()
     {
-        if (ship_camera.enabled)
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            ship_controller.Move(Vector3.up * move_speed * Time.deltaTime);
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            ship_controller.Move(Vector3.down * move_speed * Time.deltaTime);
+        }
+    }
+
+    private void Dismount()
+    {
+        is_grounded = Physics.CheckSphere(ground_check.position, 0.5f, ground_mask);
+
+        if (is_grounded)
         {
             game_controller.can_switch_camera = true;
+        }
+        else
+        {
+            game_controller.can_switch_camera = false;
         }
     }
 }

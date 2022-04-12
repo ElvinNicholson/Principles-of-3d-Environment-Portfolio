@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float move_speed = 6f;
     [SerializeField] private float turn_speed = 150f;
 
-    [SerializeField] private float interaction_distance = 10f;
     [SerializeField] private GameController game_controller;
 
     private Vector3 player_direction;
@@ -24,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask ground_mask;
     [SerializeField] private float gravity;
 
-    void Update()
+    private void Update()
     {
         Gravity();
         Movement();
@@ -88,12 +87,12 @@ public class PlayerController : MonoBehaviour
         player_controller.Move(velocity * Time.deltaTime * 2);
     }
 
-    void Interact()
+    private void Interact()
     {
         Ray ray = new Ray(player_transform.position, player_transform.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, interaction_distance))
+        if (Physics.Raycast(ray, out hit, 5))
         {
             ShipController ship = hit.collider.GetComponent<ShipController>();
 
