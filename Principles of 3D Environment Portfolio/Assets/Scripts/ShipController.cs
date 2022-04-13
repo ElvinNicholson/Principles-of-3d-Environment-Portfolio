@@ -9,6 +9,7 @@ public class ShipController : MonoBehaviour
     [SerializeField] private CharacterController ship_controller;
     [SerializeField] private Camera ship_camera;
     [SerializeField] private Transform ship_transform;
+    [SerializeField] private Animator ship_animator;
 
     [SerializeField] private float move_speed = 6f;
     [SerializeField] private float turn_speed = 150f;
@@ -33,7 +34,7 @@ public class ShipController : MonoBehaviour
 
     private void HorizontalMovement()
     {
-        if (ship_camera.enabled)
+        if (ship_camera.enabled && !is_grounded)
         {
             vertical_input = Input.GetAxis("Vertical");
             horizontal_input = Input.GetAxis("Horizontal");
@@ -48,7 +49,7 @@ public class ShipController : MonoBehaviour
 
         ship_transform.Rotate(Vector3.up, x_direction);
 
-        // ship_animator.SetFloat("Horizontal", horizontal_input, 0.1f, Time.deltaTime);
+        ship_animator.SetFloat("Horizontal", horizontal_input, 0.1f, Time.deltaTime);
 
         ship_direction = new Vector3(0, 0, vertical_input);
         ship_direction = transform.TransformDirection(ship_direction);
@@ -57,18 +58,18 @@ public class ShipController : MonoBehaviour
         {
             if (vertical_input > 0)
             {
-                // ship_animator.SetFloat("Speed", 1f, 0.1f, Time.deltaTime);
+                ship_animator.SetFloat("Speed", 1f, 0.3f, Time.deltaTime);
             }
             else if (vertical_input < 0)
             {
-                // ship_animator.SetFloat("Speed", -1f, 0.1f, Time.deltaTime);
+                ship_animator.SetFloat("Speed", -1f, 0.3f, Time.deltaTime);
             }
 
             ship_controller.Move(ship_direction * move_speed * Time.deltaTime);
         }
         else
         {
-            // ship_animator.SetFloat("Speed", 0f, 0.1f, Time.deltaTime);
+            ship_animator.SetFloat("Speed", 0f, 0.3f, Time.deltaTime);
         }
     }
 
@@ -87,6 +88,8 @@ public class ShipController : MonoBehaviour
     private void Dismount()
     {
         is_grounded = Physics.CheckSphere(ground_check.position, 0.5f, ground_mask);
+
+        ship_animator.SetBool("Landed", is_grounded);
 
         if (is_grounded)
         {
