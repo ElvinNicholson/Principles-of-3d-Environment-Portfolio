@@ -22,12 +22,16 @@ public class ShipController : MonoBehaviour
     [SerializeField] private LayerMask ground_mask;
     [SerializeField] private Transform ground_check;
 
+    private float claw_lower_raise_val = 0f;
+    private bool is_claw_open = false;
+
     private void Update()
     {
         HorizontalMovement();
         if (ship_camera.enabled)
         {
             VerticalMovement();
+            ClawControls();
             Dismount();
         }
     }
@@ -85,6 +89,45 @@ public class ShipController : MonoBehaviour
         }
     }
 
+    private void ClawControls()
+    {
+        if (!is_grounded)
+        {
+            // Lower Claw
+            if (Input.GetKey(KeyCode.Alpha1))
+            {
+                LowerClaw();
+            }
+
+            // Raise Claw
+            else if (Input.GetKey(KeyCode.Alpha2))
+            {
+                RaiseClaw();
+            }
+
+            // Open Claw
+            if (Input.GetKey(KeyCode.Alpha3))
+            {
+                is_claw_open = true;
+                ship_animator.SetBool("ClawOpen", is_claw_open);
+            }
+
+            // Close Claw
+            else if (Input.GetKey(KeyCode.Alpha4))
+            {
+                is_claw_open = false;
+                ship_animator.SetBool("ClawOpen", is_claw_open);
+            }
+        }
+        else
+        {
+            RaiseClaw();
+
+            is_claw_open = false;
+            ship_animator.SetBool("ClawOpen", is_claw_open);
+        }
+    }
+
     private void Dismount()
     {
         is_grounded = Physics.CheckSphere(ground_check.position, 0.5f, ground_mask);
@@ -99,5 +142,33 @@ public class ShipController : MonoBehaviour
         {
             game_controller.can_switch_camera = false;
         }
+    }
+
+    private void LowerClaw()
+    {
+        if (claw_lower_raise_val < 0.99f)
+        {
+            claw_lower_raise_val += Time.deltaTime;
+        }
+        else
+        {
+            claw_lower_raise_val = 0.99f;
+        }
+
+        ship_animator.SetFloat("LowerRaiseClaw", claw_lower_raise_val);
+    }
+
+    private void RaiseClaw()
+    {
+        if (claw_lower_raise_val > 0f)
+        {
+            claw_lower_raise_val -= Time.deltaTime;
+        }
+        else
+        {
+            claw_lower_raise_val = 0f;
+        }
+
+        ship_animator.SetFloat("LowerRaiseClaw", claw_lower_raise_val);
     }
 }

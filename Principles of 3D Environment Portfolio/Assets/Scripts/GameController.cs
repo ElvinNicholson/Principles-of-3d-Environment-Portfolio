@@ -11,12 +11,15 @@ public class GameController : MonoBehaviour
     [SerializeField] private Camera ship_camera;
     [SerializeField] private Transform ship_transform;
 
+    [SerializeField] private Camera claw_camera;
+
     public bool can_switch_camera = false;
 
     private void Start()
     {
         player_camera.enabled = true;
         ship_camera.enabled = false;
+        claw_camera.enabled = false;
     }
 
     private void Update()
@@ -34,6 +37,7 @@ public class GameController : MonoBehaviour
         {
             player_camera.enabled = !player_camera.enabled;
             ship_camera.enabled = !ship_camera.enabled;
+            claw_camera.enabled = !claw_camera.enabled;
 
             if (player_camera.enabled)
             {
