@@ -24,6 +24,7 @@ public class ShipController : MonoBehaviour
 
     private float claw_lower_raise_val = 0f;
     private bool is_claw_open = false;
+    [SerializeField] private Transform claw_transform;
 
     private void Update()
     {
@@ -31,6 +32,7 @@ public class ShipController : MonoBehaviour
         if (ship_camera.enabled)
         {
             VerticalMovement();
+            ClawInteractions();
             ClawControls();
             Dismount();
         }
@@ -106,14 +108,14 @@ public class ShipController : MonoBehaviour
             }
 
             // Open Claw
-            if (Input.GetKey(KeyCode.Alpha3))
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 is_claw_open = true;
                 ship_animator.SetBool("ClawOpen", is_claw_open);
             }
 
             // Close Claw
-            else if (Input.GetKey(KeyCode.Alpha4))
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 is_claw_open = false;
                 ship_animator.SetBool("ClawOpen", is_claw_open);
@@ -125,6 +127,32 @@ public class ShipController : MonoBehaviour
 
             is_claw_open = false;
             ship_animator.SetBool("ClawOpen", is_claw_open);
+        }
+    }
+
+    private void ClawInteractions()
+    {
+        Ray ray = new Ray(claw_transform.position, claw_transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 3))
+        {
+            PickUpObject pickUpObject = hit.collider.GetComponent<PickUpObject>();
+
+            if (pickUpObject != null)
+            {
+                if (is_claw_open && Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    pickUpObject.object_transform.parent = claw_transform;
+                    pickUpObject.picked_up = true;
+                }
+
+                if (!is_claw_open && Input.GetKeyDown(KeyCode.Alpha3) && pickUpObject.object_transform.parent == claw_transform)
+                {
+                    pickUpObject.object_transform.parent = null;
+                    pickUpObject.picked_up = false;
+                }
+            }
         }
     }
 
