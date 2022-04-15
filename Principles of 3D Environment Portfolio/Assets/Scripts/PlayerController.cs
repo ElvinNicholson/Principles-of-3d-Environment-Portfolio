@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform player_transform;
     [SerializeField] private Animator player_animator;
     [SerializeField] private Camera player_camera;
+    [SerializeField] private Transform player_raycast;
 
     [SerializeField] private float move_speed = 6f;
     [SerializeField] private float turn_speed = 150f;
@@ -89,7 +90,7 @@ public class PlayerController : MonoBehaviour
 
     private void Interact()
     {
-        Ray ray = new Ray(player_transform.position, player_transform.forward);
+        Ray ray = new Ray(player_raycast.position, player_raycast.forward);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 5))

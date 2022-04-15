@@ -24,7 +24,10 @@ public class ShipController : MonoBehaviour
 
     private float claw_lower_raise_val = 0f;
     private bool is_claw_open = false;
+    private bool is_claw_used = false;
     [SerializeField] private Transform claw_transform;
+
+    [SerializeField] private GameObject[] ship_particles;
 
     private void Update()
     {
@@ -96,13 +99,13 @@ public class ShipController : MonoBehaviour
         if (!is_grounded)
         {
             // Lower Claw
-            if (Input.GetKey(KeyCode.Alpha1))
+            if (Input.GetKey(KeyCode.Alpha1) && !is_claw_used)
             {
                 LowerClaw();
             }
 
             // Raise Claw
-            else if (Input.GetKey(KeyCode.Alpha2))
+            else if (Input.GetKey(KeyCode.Alpha2) && !is_claw_used)
             {
                 RaiseClaw();
             }
@@ -145,12 +148,14 @@ public class ShipController : MonoBehaviour
                 {
                     pickUpObject.object_transform.parent = claw_transform;
                     pickUpObject.picked_up = true;
+                    is_claw_used = true;
                 }
 
                 if (!is_claw_open && Input.GetKeyDown(KeyCode.Alpha3) && pickUpObject.object_transform.parent == claw_transform)
                 {
                     pickUpObject.object_transform.parent = null;
                     pickUpObject.picked_up = false;
+                    is_claw_used = false;
                 }
             }
         }
@@ -165,10 +170,14 @@ public class ShipController : MonoBehaviour
         if (is_grounded)
         {
             game_controller.can_switch_camera = true;
+            ship_particles[0].SetActive(false);
+            ship_particles[1].SetActive(false);
         }
         else
         {
             game_controller.can_switch_camera = false;
+            ship_particles[0].SetActive(true);
+            ship_particles[1].SetActive(true);
         }
     }
 
