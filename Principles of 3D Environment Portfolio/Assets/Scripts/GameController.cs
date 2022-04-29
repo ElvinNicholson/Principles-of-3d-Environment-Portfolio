@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private Camera ship_camera;
     [SerializeField] private Transform ship_transform;
+    [SerializeField] private ShipController ship_controller;
 
     [SerializeField] private Camera claw_camera;
 
@@ -25,10 +26,8 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         SwitchCamera();
-        if (!player_camera.enabled)
-        {
-            player_transform.position = ship_transform.TransformPoint(-8f, 0, 8f);
-        }
+        clawCamera();
+        movePlayer();
     }
 
     private void SwitchCamera()
@@ -37,7 +36,6 @@ public class GameController : MonoBehaviour
         {
             player_camera.enabled = !player_camera.enabled;
             ship_camera.enabled = !ship_camera.enabled;
-            claw_camera.enabled = !claw_camera.enabled;
 
             if (player_camera.enabled)
             {
@@ -47,6 +45,26 @@ public class GameController : MonoBehaviour
             {
                 player_object.SetActive(false);
             }
+        }
+    }
+
+    private void movePlayer()
+    {
+        if (!player_camera.enabled)
+        {
+            player_transform.position = ship_transform.TransformPoint(-8f, 0, 8f);
+        }
+    }
+
+    private void clawCamera()
+    {
+        if (ship_controller.is_claw_lowered)
+        {
+            claw_camera.enabled = true;
+        }
+        else
+        {
+            claw_camera.enabled = false;
         }
     }
 }
