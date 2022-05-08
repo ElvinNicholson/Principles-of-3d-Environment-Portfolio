@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        player_camera.enabled = true;
+        player_camera.enabled = false;
         ship_camera.enabled = false;
         claw_camera.enabled = false;
     }

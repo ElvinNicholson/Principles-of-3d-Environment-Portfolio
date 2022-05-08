@@ -139,7 +139,7 @@ public class ShipController : MonoBehaviour
                 ship_animator.SetBool("ClawOpen", is_claw_open);
             }
         }
-        else
+        else if (!is_claw_used && is_grounded)
         {
             RaiseClaw();
 
@@ -173,6 +173,7 @@ public class ShipController : MonoBehaviour
                     pickUpObject.object_transform.parent = claw_transform;
                     pickUpObject.picked_up = true;
                     is_claw_used = true;
+                    ship_controller.height = 20;
                 }
 
                 if (!is_claw_open && Input.GetKeyDown(KeyCode.Alpha3) && pickUpObject.object_transform.parent == claw_transform)
@@ -180,6 +181,7 @@ public class ShipController : MonoBehaviour
                     pickUpObject.object_transform.parent = null;
                     pickUpObject.picked_up = false;
                     is_claw_used = false;
+                    ship_controller.height = 5;
                 }
             }
         }
@@ -191,7 +193,7 @@ public class ShipController : MonoBehaviour
 
         ship_animator.SetBool("Landed", is_grounded);
 
-        if (is_grounded)
+        if (is_grounded && !is_claw_used)
         {
             game_controller.can_switch_camera = true;
             foreach(ParticleSystem particle in ship_particles)
