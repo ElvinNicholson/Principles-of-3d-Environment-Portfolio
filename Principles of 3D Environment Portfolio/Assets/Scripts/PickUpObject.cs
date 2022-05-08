@@ -13,11 +13,11 @@ public class PickUpObject : MonoBehaviour
     {
         if (picked_up)
         {
-            object_rigidbody.useGravity = false;
+            object_rigidbody.isKinematic = true;
         }
         else
         {
-            object_rigidbody.useGravity = true;
+            object_rigidbody.isKinematic = false;
         }
     }
 }
