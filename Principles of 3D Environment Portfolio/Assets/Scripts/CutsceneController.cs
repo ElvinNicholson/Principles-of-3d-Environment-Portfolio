@@ -6,6 +6,7 @@ public class CutsceneController : MonoBehaviour
 {
     [SerializeField] private Break bridge;
     [SerializeField] private Camera player_cam;
+    [SerializeField] private GameObject ui;
 
     public void breakBridge()
     {
@@ -15,6 +16,7 @@ public class CutsceneController : MonoBehaviour
     public void switchCam()
     {
         player_cam.enabled = true;
+        ui.SetActive(true);
         Destroy(gameObject);
     }
 }

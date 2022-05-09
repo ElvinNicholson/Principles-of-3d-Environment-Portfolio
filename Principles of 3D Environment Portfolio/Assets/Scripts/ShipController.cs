@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
+    [SerializeField] private ObjectiveController obj_controller;
+
     [SerializeField] private GameController game_controller;
 
     [SerializeField] private CharacterController ship_controller;
@@ -174,6 +176,7 @@ public class ShipController : MonoBehaviour
                     pickUpObject.picked_up = true;
                     is_claw_used = true;
                     ship_controller.height = 20;
+                    obj_controller.carPickedUp();
                 }
 
                 if (!is_claw_open && Input.GetKeyDown(KeyCode.Alpha3) && pickUpObject.object_transform.parent == claw_transform)

@@ -10,9 +10,13 @@ public class PickUpObject : MonoBehaviour
     [SerializeField] private Rigidbody object_rigidbody;
     [SerializeField] private ParticleSystem landing_particle;
     [SerializeField] private LayerMask ground_mask;
+    [SerializeField] private LayerMask safe_zone;
+
+    [SerializeField] private ObjectiveController obj_controller;
 
     private bool is_grounded = true;
     private bool played_particle = true;
+    private bool is_safe = false;
 
     private void Update()
     {
@@ -35,11 +39,18 @@ public class PickUpObject : MonoBehaviour
 
     private void groundCheck()
     {
-        is_grounded = Physics.CheckSphere(landing_particle.transform.position, 3f, ground_mask);
+        is_grounded = Physics.CheckSphere(landing_particle.transform.position, 2f, ground_mask);
 
         if (!is_grounded)
         {
             played_particle = false;
+        }
+
+        is_safe = Physics.CheckSphere(landing_particle.transform.position, 2f, safe_zone);
+
+        if (is_safe)
+        {
+            obj_controller.complete();
         }
     }
 
