@@ -8,8 +8,20 @@ public class PickUpObject : MonoBehaviour
     public bool picked_up = false;
 
     [SerializeField] private Rigidbody object_rigidbody;
+    [SerializeField] private ParticleSystem landing_particle;
+    [SerializeField] private LayerMask ground_mask;
+
+    private bool is_grounded = true;
+    private bool played_particle = true;
 
     private void Update()
+    {
+        pickUpCheck();
+        groundCheck();
+        playParticle();
+    }
+
+    private void pickUpCheck()
     {
         if (picked_up)
         {
@@ -18,6 +30,25 @@ public class PickUpObject : MonoBehaviour
         else
         {
             object_rigidbody.isKinematic = false;
+        }
+    }
+
+    private void groundCheck()
+    {
+        is_grounded = Physics.CheckSphere(landing_particle.transform.position, 3f, ground_mask);
+
+        if (!is_grounded)
+        {
+            played_particle = false;
+        }
+    }
+
+    private void playParticle()
+    {
+        if (is_grounded && !played_particle)
+        {
+            landing_particle.Play();
+            played_particle = true;
         }
     }
 }
