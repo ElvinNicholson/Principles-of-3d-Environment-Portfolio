@@ -79,12 +79,15 @@ public class PlayerController : MonoBehaviour
     {
         is_grounded = Physics.CheckSphere(transform.position, 0.2f, ground_mask);
 
-        if (is_grounded && velocity.y < 0)
+        if (!is_grounded)
         {
-            velocity.y = -2f;
+            velocity.y -= gravity * Time.deltaTime;
         }
-
-        velocity.y -= gravity * Time.deltaTime;
+        else
+        {
+            velocity.y = 0f;
+        }
+        
         player_controller.Move(velocity * Time.deltaTime * 2);
     }
 

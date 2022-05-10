@@ -48,7 +48,7 @@ public class PickUpObject : MonoBehaviour
 
         is_safe = Physics.CheckSphere(landing_particle.transform.position, 2f, safe_zone);
 
-        if (is_safe)
+        if (is_safe && !picked_up)
         {
             obj_controller.complete();
         }
