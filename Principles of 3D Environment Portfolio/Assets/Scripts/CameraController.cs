@@ -11,8 +11,10 @@ public class CameraController : MonoBehaviour
     private float camera_distance;
     private float x_distance;
 
-    public bool left_collide = false;
-    public bool right_collide = false;
+    //private bool left_collide = false;
+    private bool right_collide = false;
+
+    float ref_vel = 0f;
 
     private void Update()
     {
@@ -25,8 +27,6 @@ public class CameraController : MonoBehaviour
 
         float x;
         float y;
-
-        float ref_vel = 0f;
 
         if (Physics.Linecast(min_cam_pos.position, max_cam_pos.position, out hit))
         {
@@ -44,12 +44,12 @@ public class CameraController : MonoBehaviour
         if (Physics.Raycast(cam_trans.position, Quaternion.Euler(0, 90, 0) * cam_trans.forward, 0.5f))
         {
             right_collide = true;
-            left_collide = false;
+            //left_collide = false;
         }
         else if (Physics.Raycast(cam_trans.position, Quaternion.Euler(0, -90, 0) * cam_trans.forward, 0.5f))
         {
             right_collide = false;
-            left_collide = true;
+            //left_collide = true;
         }
 
         if (right_collide)
@@ -57,7 +57,7 @@ public class CameraController : MonoBehaviour
             x = -x;
         }
 
-        float damp_x = Mathf.SmoothDamp(x_distance, x, ref ref_vel, 0.05f);
+        float damp_x = Mathf.SmoothDamp(x_distance, x, ref ref_vel, 0.3f);
         x_distance = damp_x;
 
         cam_trans.localPosition = new Vector3(x_distance, y, -camera_distance);

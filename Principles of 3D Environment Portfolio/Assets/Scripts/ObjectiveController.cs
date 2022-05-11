@@ -12,6 +12,7 @@ public class ObjectiveController : MonoBehaviour
     [SerializeField] private Camera ship_cam;
 
     private bool marker_enabled = false;
+    private bool completed = false;
 
     private void Update()
     {
@@ -20,13 +21,17 @@ public class ObjectiveController : MonoBehaviour
 
     public void carPickedUp()
     {
-        obj_text.text = "Drop off the car in the safe zone";
-        enableMarker();
+        if (!completed)
+        {
+            obj_text.text = "Drop off the car in the safe zone";
+            enableMarker();
+        }
     }
 
     public void complete()
     {
         obj_text.text = "Rescue successful!";
+        completed = true;
         disableMarker();
     }
 

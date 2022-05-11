@@ -40,6 +40,8 @@ public class GameController : MonoBehaviour
             if (player_camera.enabled)
             {
                 player_object.SetActive(true);
+                claw_camera.enabled = false;
+                ship_controller.close_claw();
             }
             else
             {

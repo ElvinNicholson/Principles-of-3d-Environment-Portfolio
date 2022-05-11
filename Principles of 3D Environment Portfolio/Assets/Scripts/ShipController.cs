@@ -36,6 +36,11 @@ public class ShipController : MonoBehaviour
     [SerializeField] private ParticleSystem[] ship_particles;
     [SerializeField] private Transform land_particle_transform;
 
+    private float cam_y = 10f;
+    float ref_vel = 0f;
+
+    [SerializeField] private GameObject ship_light;
+
     private void Start()
     {
         foreach (ParticleSystem particle in ship_particles)
@@ -48,6 +53,7 @@ public class ShipController : MonoBehaviour
     private void Update()
     {
         HorizontalMovement();
+        lightControl();
         if (ship_camera.enabled)
         {
             VerticalMovement();
@@ -55,6 +61,7 @@ public class ShipController : MonoBehaviour
             ClawControls();
             Dismount();
             landingParticleHandler();
+            cameraControl();
         }
     }
 
@@ -143,10 +150,7 @@ public class ShipController : MonoBehaviour
         }
         else if (!is_claw_used && is_grounded)
         {
-            RaiseClaw();
-
-            is_claw_open = false;
-            ship_animator.SetBool("ClawOpen", is_claw_open);
+            close_claw();
         }
 
         if (claw_lower_raise_val > 0f)
@@ -157,6 +161,16 @@ public class ShipController : MonoBehaviour
         {
             is_claw_lowered = false;
         }
+    }
+
+    public void close_claw()
+    {
+        RaiseClaw();
+
+        is_claw_open = false;
+        is_claw_lowered = false;
+        claw_lower_raise_val = 0f;
+        ship_animator.SetBool("ClawOpen", is_claw_open);
     }
 
     private void ClawInteractions()
@@ -267,7 +281,7 @@ public class ShipController : MonoBehaviour
     {
         findGroundDistance();
 
-        land_particle_transform.position = ground_check.TransformPoint(0, -ground_distance + 2f, 0);
+        land_particle_transform.position = ground_check.TransformPoint(0, -ground_distance + 2f, -5.5f);
 
         var emission = ship_particles[0].emission;
         var shape = ship_particles[0].shape;
@@ -279,6 +293,34 @@ public class ShipController : MonoBehaviour
         else
         {
             emission.enabled = false;
+        }
+    }
+
+    private void cameraControl()
+    {
+        if (is_claw_lowered)
+        {
+            float new_y = 5f;
+            cam_y = Mathf.SmoothDamp(cam_y, new_y, ref ref_vel, 0.5f);
+            ship_camera.transform.localPosition = new Vector3(0f, cam_y, -33.5f);
+        }
+        else
+        {
+            float new_y = 10f;
+            cam_y = Mathf.SmoothDamp(cam_y, new_y, ref ref_vel, 0.5f);
+            ship_camera.transform.localPosition = new Vector3(0f, cam_y, -33.5f);
+        }
+    }
+
+    private void lightControl()
+    {
+        if (ship_camera.enabled)
+        {
+            ship_light.SetActive(true);
+        }
+        else
+        {
+            ship_light.SetActive(false);
         }
     }
 }
