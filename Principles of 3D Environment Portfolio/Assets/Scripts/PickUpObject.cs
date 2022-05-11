@@ -39,7 +39,7 @@ public class PickUpObject : MonoBehaviour
 
     private void groundCheck()
     {
-        is_grounded = Physics.CheckSphere(landing_particle.transform.position, 2f, ground_mask);
+        is_grounded = Physics.CheckSphere(landing_particle.transform.position, 2.5f, ground_mask);
 
         if (!is_grounded)
         {

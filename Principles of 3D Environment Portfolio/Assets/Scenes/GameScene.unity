@@ -24792,7 +24792,7 @@ MonoBehaviour:
   ship_transform: {fileID: 408256246}
   ship_animator: {fileID: 1350997839}
   move_speed: 25
-  turn_speed: 150
+  turn_speed: 80
   ground_mask:
     serializedVersion: 2
     m_Bits: 64
@@ -25476,7 +25476,7 @@ MonoBehaviour:
   - {fileID: 123125211}
   - {fileID: 1630789651}
   - {fileID: 1490287884}
-  breakForce: 100000
+  breaking_force: 0
 --- !u!1 &793734872
 GameObject:
   m_ObjectHideFlags: 0
@@ -36210,7 +36210,7 @@ WindZone:
   m_GameObject: {fileID: 1379086262}
   m_Enabled: 1
   m_Mode: 1
-  m_Radius: 30
+  m_Radius: 25
   m_WindMain: 10
   m_WindTurbulence: 1
   m_WindPulseMagnitude: 0.5

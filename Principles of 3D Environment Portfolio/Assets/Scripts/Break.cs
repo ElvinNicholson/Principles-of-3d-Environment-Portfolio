@@ -8,7 +8,7 @@ public class Break : MonoBehaviour
 
     [SerializeField] private ParticleSystem[] particles;
 
-    public float breakForce;
+    public float breaking_force;
 
     public void playBreakAnim()
     {
@@ -22,7 +22,7 @@ public class Break : MonoBehaviour
 
         foreach (Rigidbody rb in new_object.GetComponentsInChildren<Rigidbody>())
         {
-            Vector3 force = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * breakForce;
+            Vector3 force = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * breaking_force;
             rb.AddForce(force);
         }
 
